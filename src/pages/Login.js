@@ -134,6 +134,7 @@ export default class LoginPage extends Component {
                 />
                 <RaisedButton
                   className="login-button"
+                  id="login-google"
                   label="Log in with Google"
                   onTouchTap={() => oauthApi.signIn("signin")}
                   icon={<GoogleIcon className="button-icon" />}
