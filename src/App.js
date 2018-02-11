@@ -13,7 +13,7 @@ import { wimoTheme } from "./styles/WimoTheme"
 import { signOutNow } from './api/auth'
 import { getConctrDecodedToken } from './api/token'
 import { loadFunctions as loadDeviceApiFunctions } from "./api/device"
-import {authSignIn, authRegister} from './api/auth'
+import { signIn, authSignIn, authRegister } from './api/auth'
 import { setEncodedToken } from './api/profileToken'
 
 // Pages
@@ -37,6 +37,20 @@ class App extends Component {
   onSignOut = () => {
     signOutNow()
     this.setState({ decodedToken: null })
+  }
+
+  onSignIn = async (email, password) => {
+    console.log('email', email)
+    console.log('password', password)
+    try {
+    const decodedToken = await signIn(email, password)
+    this.setState({decodedToken})
+    } catch(e){
+      const conctrError = {
+        conctrError: e.response.data.error
+      }
+      this.setState({error: conctrError})
+    }
   }
 
   // if OAuth for Google Login Passes
@@ -129,6 +143,7 @@ class App extends Component {
                       GoogleLoginFailure={this.onGoogleFailure}
                       GoogleRegisterSuccess={this.onGoogleSuccess}
                       GoogleRegisterFailure={this.onGoogleFailure}
+                      onSignIn={this.onSignIn}
                       useColor={false}
                       backgroundColor="#C8C8C8"
                     />

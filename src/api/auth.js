@@ -5,9 +5,9 @@ import { getConctrDecodedToken } from "./token"
 
 const appId = process.env.REACT_APP_CONCTR_APP_API_ID
 
-export function signIn({ email, password }) {
+export function signIn(email, password) {
   return api
-    .post(`/consumers/admin/${appId}/login`, {
+    .post(`/admin/users/login`, {
       userData: {
         email: email,
         pwd: password

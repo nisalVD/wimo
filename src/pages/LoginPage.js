@@ -12,6 +12,7 @@ import GoogleLogin from "react-google-login"
 import "./LoginPage.css"
 
 const LoginPage = ({
+  onSignIn,
   GoogleLoginSuccess,
   GoogleLoginFailure,
   GoogleRegisterSuccess,
@@ -47,22 +48,25 @@ const LoginPage = ({
           <img src={Logo} alt="app logo" className="app-login-logo" />
           <div>
             <div className="element" />
+            <form onSubmit={(e) => {
+              e.preventDefault()
+              const elements = e.target.elements
+              const email = elements.email.value
+              const password = elements.password.value
+              // pass email and password to App.js
+              onSignIn(email, password)
+            }}>
             <div className="login-text-fields">
               <TextField
                 id="email"
                 floatingLabelText="Email"
                 fullWidth={true}
-                onChange={this.onInputChange}
-                onEnterKeyDown={() => this.submitToAuth(this.props.onSignIn)}
-                // value={this.state.email}
                 hintText="Email"
               />
               <TextField
                 id="password"
                 floatingLabelText="Password"
                 fullWidth={true}
-                onChange={this.onInputChange}
-                onEnterKeyDown={() => this.submitToAuth(this.props.onSignIn)}
                 hintText="Password"
                 type="password"
               />
@@ -70,8 +74,9 @@ const LoginPage = ({
             <RaisedButton
               className="login-button"
               label="Log in"
-              onTouchTap={() => this.submitToAuth(this.props.onSignIn)}
+              type="submit"
             />
+            </form>
             <GoogleLogin
               className="google-button"
               clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
