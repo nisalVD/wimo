@@ -10,8 +10,8 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
 import { wimoTheme } from "./styles/WimoTheme"
 
 // Api Calls
-import { signOutNow } from './api/auth'
-import { getConctrDecodedToken } from './api/token'
+import { signOutNow } from "./api/auth"
+import { getConctrDecodedToken } from "./api/token"
 import { loadFunctions as loadDeviceApiFunctions } from "./api/device"
 import { signIn, authSignIn, authRegister } from './api/auth'
 import { setEncodedToken } from './api/profileToken'
@@ -55,17 +55,17 @@ class App extends Component {
 
   // if OAuth for Google Login Passes
   onGoogleSuccess = (response, status) => {
-    this.setState({userData: response.profileObj})
+    this.setState({ userData: response.profileObj })
     //  set jwt of userData in localstorage
     setEncodedToken(response.profileObj)
-    const accessToken  = response.Zi.access_token
+    const accessToken = response.Zi.access_token
     const email = response.w3.U3
-    const provider = 'google'
+    const provider = "google"
     if (status === "signIn") {
       authSignIn(email, provider, accessToken)
         .then(decodedToken => {
           console.log(decodedToken)
-          this.setState({decodedToken})
+          this.setState({ decodedToken })
         })
         .catch(err => {
           const conctrError = {
@@ -76,7 +76,7 @@ class App extends Component {
     }
     if (status === "register") {
       authRegister(email, provider, accessToken)
-        .then(conctrUser=> {
+        .then(conctrUser => {
           this.setState({ token: conctrUser.jwt })
         })
         .catch(err => {
@@ -110,10 +110,9 @@ class App extends Component {
     }
   }
 
-
   render() {
-    const {decodedToken, error, userData} = this.state
-    console.log('decodedToken', decodedToken)
+    const { decodedToken, error, userData } = this.state
+    console.log("decodedToken", decodedToken)
     const signedIn = !!decodedToken
     console.log(error)
     // errors
@@ -129,7 +128,7 @@ class App extends Component {
               newestOnTop={false}
               closeOnClick
             />
-            <NavBar signedIn={signedIn} logOut={this.onSignOut} userData={userData} />
+            <NavBar signedIn={signedIn} logOut={this.onSignOut} />
             <Switch>
               <Route
                 path="/login"
